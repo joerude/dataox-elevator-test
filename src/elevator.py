@@ -33,13 +33,13 @@ class Elevator:
         return self.passengers_dict.get(self.current_floor)
 
     def random_floor_to_passenger(self, floor):
-        """ Генерируют случайный этаж, отличный
-        от того на котором находиться пассажир
+        """ Генерация случайного этажа, отличного
+        от того на котором находиться пассажир.
         """
         return choice([i for i in range(1, self.total_floors) if i != floor])
 
     def generate_passengers(self):
-        """ Генерируют случайных пассажиров
+        """ Генерация случайных пассажиров
         в диапазоне от 0 до 10 человек на каждом этаже."""
         for floor in range(1, self.total_floors + 1):
             for passenger in range(randint(0, 10)):
@@ -71,7 +71,7 @@ class Elevator:
     def passengers_enter_elevator(self):
         """
         Пассажиры заходят лифт в зависимости
-        от направления лифта и заполненности.
+        от направления и заполненности лифта.
         """
         if self.direction:
             if self.passengers_of_current_floor():
@@ -159,7 +159,7 @@ class Elevator:
             self.passengers_exit_elevator()
             self.passengers_enter_elevator()
         else:
-            raise ValueError('ЛИФТ НЕ МОЖЕТ НИЖЕ БЫТЬ НАЧАЛЬНОГО ЭТАЖА')
+            raise ValueError('ЛИФТ НЕ МОЖЕТ БЫТЬ НИЖЕ НАЧАЛЬНОГО ЭТАЖА')
 
         print('┃⤋  ', *self.elevator_list, '  ⤋┃')
         if self.current_floor != self.min_floor:
@@ -181,7 +181,7 @@ class Elevator:
         self.move_down()
 
     def print_general_info(self):
-        """Выводит на экран общую информацию о здании и лифте"""
+        """Выводит на экран общую информацию о пассажирах на каждом этаже."""
         print('------------------------------------------------')
         print('Общая информация:')
         print('Генерация здания и пассажиров...')
@@ -190,16 +190,16 @@ class Elevator:
         print(f'Текущий этаж: {self.current_floor}')
 
         from collections import OrderedDict
-        od = OrderedDict(sorted(self.passengers_dict.items()))
-        for i, v in od.items():
+        od_passengers = OrderedDict(sorted(self.passengers_dict.items()))
+        for floor, passengers in od_passengers.items():
             if self.current_floor == i:
-                print(f"{i} этаж: {v} <----- ЛИФТ ЗДЕСЬ ")
+                print(f"{floor} этаж: пассажиры - {passengers}  <----- ЛИФТ ЗДЕСЬ")
             else:
-                print(f"{i} этаж: {v}")
+                print(f"{floor} этаж: пассажиры - {passengers}")
         print('------------------------------------------------')
 
     def print_current_status(self):
-        """Выводит на экран подробную информацию о лифте"""
+        """Выводит на экран подробную информацию о лифте."""
         print('------------------------------------------------')
         print('Информация о лифте🛗:')
         print(f'Текущий этаж: {self.current_floor}')
