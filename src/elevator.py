@@ -192,7 +192,7 @@ class Elevator:
         from collections import OrderedDict
         od_passengers = OrderedDict(sorted(self.passengers_dict.items()))
         for floor, passengers in od_passengers.items():
-            if self.current_floor == i:
+            if self.current_floor == floor:
                 print(f"{floor} этаж: пассажиры - {passengers}  <----- ЛИФТ ЗДЕСЬ")
             else:
                 print(f"{floor} этаж: пассажиры - {passengers}")
