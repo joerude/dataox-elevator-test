@@ -1,4 +1,4 @@
-from collections import OrderedDict
+import time
 from random import choice, randint
 from passenger import Passenger
 
@@ -7,6 +7,8 @@ class Elevator:
     """
     max_floor/min_floor -> максимальный/минимальный этаж
     на который нужно пассажирам лифта.
+    direction=True => направление лифта ВВЕРХ
+    direction=False=> направление лифта ВНИЗ
     """
 
     def __init__(self, current_floor=1, capacity=5, total_floors=20):
@@ -128,36 +130,38 @@ class Elevator:
                 print('ПАССАЖИРОВ НЕТ НА ЭТАЖЕ')
 
     def move_up(self):
+        time.sleep(0.5)
         self.direction = True
         print(f'*** ЭТАЖ {self.current_floor} ***')
-        print('┃▲  ', *self.elevator_list, '  ▲┃')
+        print('┃⤊  ', *self.elevator_list, '  ⤊┃')
 
         if self.current_floor <= self.total_floors:
             self.passengers_exit_elevator()
             self.passengers_enter_elevator()
         else:
-            raise ValueError('ОШИБКА, ЛИФТ НЕ МОЖЕТ ВЫШЕ ПОСЛЕДНЕГО ЭТАЖА')
+            raise ValueError('ЛИФТ НЕ МОЖЕТ БЫТЬ ВЫШЕ ПОСЛЕДНЕГО ЭТАЖА!')
 
         if self.current_floor != self.max_floor:
             self.current_floor += 1
         else:
             print(">>> ЭТО МАКСИМАЛЬНЫЙ ЭТАЖ <<<")
 
-        print('┃▲  ', *self.elevator_list, '  ▲┃')
+        print('┃⟰  ', *self.elevator_list, '  ⟰┃')
         print()
 
     def move_down(self):
+        time.sleep(0.5)
         self.direction = False
         print(f'*** ЭТАЖ {self.current_floor} ***')
-        print('┃▼  ', *self.elevator_list, '  ▼┃')
+        print('┃⤋  ', *self.elevator_list, '  ⤋┃')
 
         if self.current_floor >= 1:
             self.passengers_exit_elevator()
             self.passengers_enter_elevator()
         else:
-            raise ValueError('ОШИБКА, ЛИФТ НЕ МОЖЕТ НИЖЕ БЫТЬ 1-ГО ЭТАЖА')
+            raise ValueError('ЛИФТ НЕ МОЖЕТ НИЖЕ БЫТЬ НАЧАЛЬНОГО ЭТАЖА')
 
-        print('┃▼  ', *self.elevator_list, '  ▼┃')
+        print('┃⤋  ', *self.elevator_list, '  ⤋┃')
         if self.current_floor != self.min_floor:
             self.current_floor -= 1
         else:
@@ -177,21 +181,25 @@ class Elevator:
         self.move_down()
 
     def print_general_info(self):
+        """Выводит на экран общую информацию о здании и лифте"""
         print('------------------------------------------------')
         print('Общая информация:')
+        print('Генерация здания и пассажиров...')
         print(f'Всего в здании {self.total_passengers} пассажир(а/ов)')
         print(f'Здание состоит из {self.total_floors} этажей')
         print(f'Текущий этаж: {self.current_floor}')
 
+        from collections import OrderedDict
         od = OrderedDict(sorted(self.passengers_dict.items()))
         for i, v in od.items():
             if self.current_floor == i:
-                print(f"{i}: {v} <----- ЛИФТ ЗДЕСЬ ")
+                print(f"{i} этаж: {v} <----- ЛИФТ ЗДЕСЬ ")
             else:
-                print(f"{i}: {v}")
+                print(f"{i} этаж: {v}")
         print('------------------------------------------------')
 
     def print_current_status(self):
+        """Выводит на экран подробную информацию о лифте"""
         print('------------------------------------------------')
         print('Информация о лифте🛗:')
         print(f'Текущий этаж: {self.current_floor}')
