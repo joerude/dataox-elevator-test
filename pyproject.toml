@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "dataox_elevator_test"
+version = "0.1.0"
+description = "dataox_test"
+authors = ["joerude <zh.akynov@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+isort = "^5.10.1"
+black = "^22.3.0"
+flake8 = "^4.0.1"
+mypy = "^0.961"
+
+[tool.poetry.dev-dependencies]
+
+[tool.isort]
+skip = [".gitignore", ".dockerignore"]
+extend_skip = [".md", ".json", ".pdf"]
+
+[tool.flake8]
+
+[tool.black]
+line-length = 79
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = 'env'
+
+[tool.mypy]
+exclude = 'env'
+
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
