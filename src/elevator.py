@@ -30,6 +30,7 @@ class Elevator:
             )
 
     def passengers_of_current_floor(self):
+        """Возвращает список пассажиров на этаже"""
         return self.passengers_dict.get(self.current_floor)
 
     def random_floor_to_passenger(self, floor):
@@ -69,65 +70,51 @@ class Elevator:
                 )
 
     def passengers_enter_elevator(self):
-        """
-        Пассажиры заходят лифт в зависимости
-        от направления и заполненности лифта.
-        """
-        if self.direction:
-            if self.passengers_of_current_floor():
-                print(
-                    f'Пассажиры на этаже {self.passengers_of_current_floor()}'
-                )
-                for passenger in self.passengers_of_current_floor():
-                    if (
-                            passenger.to_floor > self.current_floor
-                            and len(self.elevator_list) < self.capacity
-                    ):
-                        print(f'✅ Пассажир {passenger} входит в лифт ✅')
-                        self.elevator_list.append(passenger)
-                        self.passengers_dict[self.current_floor] = list(
-                            filter(
-                                lambda p: p != passenger,
-                                self.passengers_dict[self.current_floor],
-                            )
+        """ Пассажиры входят в лифт в зависимости от направления лифта. """
+        print(f'Пассажиры на этаже {self.passengers_of_current_floor()}')
+        if self.direction and self.passengers_of_current_floor():
+            for passenger in self.passengers_of_current_floor():
+                if (
+                        passenger.to_floor > self.current_floor
+                        and len(self.elevator_list) < self.capacity
+                ):
+                    print(f'✅ Пассажир {passenger} входит в лифт ✅')
+                    self.elevator_list.append(passenger)
+                    self.passengers_dict[self.current_floor] = list(
+                        filter(
+                            lambda p: p != passenger,
+                            self.passengers_dict[self.current_floor],
                         )
-
-                if self.elevator_list:
-                    self.max_floor = max(
-                        [
-                            passenger.to_floor
-                            for passenger in self.elevator_list
-                        ]
                     )
 
-            else:
-                print('ПАССАЖИРОВ НЕТ НА ЭТАЖЕ')
+            if self.elevator_list:
+                self.max_floor = max(
+                    [
+                        passenger.to_floor
+                        for passenger in self.elevator_list
+                    ]
+                )
 
+        elif not self.direction and self.passengers_of_current_floor():
+            for passenger in self.passengers_of_current_floor():
+                if (
+                        passenger.to_floor < self.current_floor
+                        and len(self.elevator_list) < self.capacity
+                ):
+                    print(f'✅ Пассажир {passenger} входит в лифт ✅')
+                    self.elevator_list.append(passenger)
+                    self.passengers_dict[self.current_floor] = list(
+                        filter(
+                            lambda p: p != passenger,
+                            self.passengers_dict[self.current_floor],
+                        )
+                    )
+            if self.elevator_list:
+                self.min_floor = min(
+                    [p.to_floor for p in self.elevator_list]
+                )
         else:
-            if self.passengers_of_current_floor():
-                print(
-                    f'Пассажиры на этаже {self.passengers_of_current_floor()}'
-                )
-                for passenger in self.passengers_of_current_floor():
-                    if (
-                            passenger.to_floor < self.current_floor
-                            and len(self.elevator_list) < self.capacity
-                    ):
-                        print(f'✅ Пассажир {passenger} входит в лифт ✅')
-                        self.elevator_list.append(passenger)
-                        self.passengers_dict[self.current_floor] = list(
-                            filter(
-                                lambda p: p != passenger,
-                                self.passengers_dict[self.current_floor],
-                            )
-                        )
-
-                if self.elevator_list:
-                    self.min_floor = min(
-                        [p.to_floor for p in self.elevator_list]
-                    )
-            else:
-                print('ПАССАЖИРОВ НЕТ НА ЭТАЖЕ')
+            print('ПАССАЖИРОВ НЕТ НА ЭТАЖЕ')
 
     def move_up(self):
         time.sleep(0.5)
@@ -192,27 +179,8 @@ class Elevator:
         from collections import OrderedDict
         od_passengers = OrderedDict(sorted(self.passengers_dict.items()))
         for floor, passengers in od_passengers.items():
-            if self.current_floor == i:
+            if self.current_floor == floor:
                 print(f"{floor} этаж: пассажиры - {passengers}  <----- ЛИФТ ЗДЕСЬ")
             else:
                 print(f"{floor} этаж: пассажиры - {passengers}")
-        print('------------------------------------------------')
-
-    def print_current_status(self):
-        """Выводит на экран подробную информацию о лифте."""
-        print('------------------------------------------------')
-        print('Информация о лифте🛗:')
-        print(f'Текущий этаж: {self.current_floor}')
-        print(
-            f'На этаже всего {len(self.passengers_of_current_floor())} '
-            f'пассажир(а/ов)'
-        )
-        print(f'В лифте всего {len(self.elevator_list)} пассажир(а/ов)')
-        print(f'Лифт: {self.elevator_list}')
-        print(
-            f'Доступно мест в лифте: {self.capacity - len(self.elevator_list)}'
-        )
-        print(f'Занято мест в лифте: {len(self.elevator_list)}')
-        print(f'Максимальный(необходимый) этаж: {self.max_floor}')
-        print(f'Минимально(необходимый) этаж: {self.min_floor}')
         print('------------------------------------------------')
