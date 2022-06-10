@@ -24,17 +24,12 @@ class Elevator:
         self.generate_passengers()
         self.print_general_info()
 
-        if self.current_floor > self.total_floors:
-            raise ValueError(
-                'Текущий этаж не может быть больше максимального этажа'
-            )
-
     def passengers_of_current_floor(self):
         """Возвращает список пассажиров на этаже"""
         return self.passengers_dict.get(self.current_floor)
 
     def random_floor_to_passenger(self, floor):
-        """ Генерация случайного этажа, отличного
+        """ Генерация случайного этажа пассажиру, отличного
         от того на котором находиться пассажир.
         """
         return choice([i for i in range(1, self.total_floors) if i != floor])
